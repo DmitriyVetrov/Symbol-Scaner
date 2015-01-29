@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<html>
+
+<head>
+<style>
+  div {
+    height:100px;
+    width:100px;
+    background:green;
+    float:left;
+    margin:10px;
+  }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="square first"> </div>
+<div class="square">  </div>
+<div class="square">  </div>
+<div class="square">  </div>
+<div class="square">  </div>
+
+<script>
+/*  $('.square').mouseover(function() {
+    $(this).fadeTo(300, 0.33);
+  });
+  $('.square').mouseout(function() {
+    $(this).fadeTo(300, 1);
+  });*/
+  $('.square').click(function() {
+    $(this).fadeTo(300, 0);
+  });
+
+$(document).ready(
+    function () {
+       $('.square').fadeTo(0,0);
+       $('.square').fadeTo(1000,1);
+    }
+);
+
+</script>
+
+</body>
+</html>

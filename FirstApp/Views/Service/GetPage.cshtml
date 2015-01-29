@@ -1,0 +1,76 @@
+﻿@using ScanerApp.Models;
+@model IEnumerable<Word>
+
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions() { UpdateTargetId = "page" };
+}
+<script type="text/javascript">
+    function activaTab(tab) {
+        $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+    };
+</script>
+
+<div id="page">
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Attention!</strong> The database is empty, please, proceed to <a href="#" class="alert-link" onclick="activaTab('step2');">Step #2</a>
+        </div>
+    }
+    else
+    {
+        int row_id = 0;
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr class="lead">
+                    <th class="col-lg-2">Word </th>
+                    <th class="col-lg-2">File </th>
+                    <th>Position </th>
+                </tr>
+            </thead>
+
+            @foreach (var word in Model)
+            {
+                bool firstLine = true;
+                foreach (var item in word.WordByDocs)
+                {
+                    <tr>
+                        @if (firstLine)
+                        {
+                            <td rowspan=@word.WordByDocs.Count()><h6><b>@word.Title</b></h6></td>
+                            firstLine = false;
+                        }
+                        <td> @item.Doc.Name </td>
+                        <td>
+                            @foreach (var pos in item.Positions)
+                            {
+                                <span class="collapse label label-info" id="@String.Concat("myDiv", row_id)">@pos.Line, @pos.Step</span>
+                            }
+
+                        </td>
+                    </tr>
+                            row_id++;
+                }
+            }
+        </table>
+    <!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+        <ul class="pager">
+            <li class="previous">
+                @Ajax.ActionLink("Prev", "GetPage", new { skip = ViewBag.skip - ViewBag.pageSize }, ajaxOptions,
+                        (ViewBag.skip == 0) ? new { style = "display:none" } : null)
+            </li>
+            <li>
+                @Html.Raw(String.Format("Page <b>{0}</b> of <b>{1}</b>", ViewBag.skip / ViewBag.pageSize + 1, ViewBag.pageQnt))
+            </li>
+            <li class="next">
+
+                @Ajax.ActionLink(" Next ", "GetPage", new { skip = ViewBag.skip + ViewBag.pageSize }, ajaxOptions,
+                    new { @class = "" + ((ViewBag.skip / ViewBag.pageSize + 1 == ViewBag.pageQnt) ? "hidden" : "") })
+
+
+            </li>
+
+        </ul>
+
+    }
+</div>

@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@Ajax.ActionLink("Ajax", "GetPage", null, new AjaxOptions() { UpdateTargetId = "targetId" }, null)
+
+
+<div class="jumbotron" id="targetId">
+    <h1>Solution is avaible</h1>
+    <div class="row">
+        <div class="col-sm-4">
+            <p class="lead"> Go to the demonstration!</p>
+            <p>@Html.ActionLink("Demonstrate »", "Demonstrate", "Service", null, new { @class = "btn btn-primary btn-lg" })</p>
+        </div>
+        <div class="col-sm-8" style="display:inline-block; vertical-align: middle; float: none;">
+            <p>To do:</p>
+            <ul class="list-unstyled">
+                <li>Step #1. Upload files</li>
+                <li>Step #2. Execute Analysis</li>
+                <li>Step #3. View results</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Сondition </h2>
+        <p>
+            Просканировать папку на предмет наличия текстовых файлов, файлы разделить на слова, разработать БД для хранения следующей информации - имя файла, его метоположение на диске, слово, информация о том в каком файле это слово находится и в какой позиции (номер строки, номер колонки)
+        </p>
+        <p class="hidden"><a class="btn btn-default" href="~/Home/Index">Read More &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Requirements </h2>
+        
+        <ol>
+            <li>Задание должно быть реализовано с максимальным использование ООП. Суть задания не в том чтобы убедиться что кандидат знает инструмент, а в том, чтобы увидеть, как он им умеет пользоваться</li>
+            <li>Должен быть WEB UI (MVC) для отображения списка слов + имя файла где оно встречается + позиция + количество вхождений в файл (отображение должно быть постраничное)</li>
+            <li>Доступ к данным через ADO.NET (MSSQL/MySQL - разницы нету)</li>
+            <li>Должны присутствовать модульные тесты</li>
+            <li>База данных должна создаваться скриптом - это для того чтобы ее можно было легко восзоздать при проверке тестового задания, или должен быть приложен bak базы</li>
+        </ol>
+        <p class="hidden"><a class="btn btn-default" href="~/Home/Index">Read More &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Estimation </h2>
+        <p>Сроки не должны быть сильно сжатыми т. к. ожидается увидеть не просто решение, а интересное решение - в принципе недели должно хватить.</p>
+        <p class="hidden"><a class="btn btn-default" href="~/Home/Index">Read More &raquo;</a></p>
+    </div>
+</div>

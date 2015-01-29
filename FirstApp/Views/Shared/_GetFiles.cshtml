@@ -1,0 +1,70 @@
+﻿@model FileInfo[]
+
+@{ 
+    long totalBytes = 0;
+    int ind = 0;
+}
+
+@helper BytesToString(long byteCount)
+{
+    string[] suf = { "bytes", "Kb", "Mb", "Gb", "Tb", "Pb", "Eb" }; //Longs run out around EB
+    if (byteCount == 0)
+    {
+        @Html.Raw("0 " + suf[0])
+    }
+    else
+    {
+        long bytes = Math.Abs(byteCount);
+        int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+        double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+        @Html.Raw((Math.Sign(byteCount) * num).ToString() + " " + suf[place])
+    }
+}
+
+<div class="well">
+    @using (Html.BeginForm("GetFiles", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <label for="files" class="col-lg-1 control-label">File input</label>
+            <input type="file" id="files" multiple="multiple" name="files" class="form-control col-lg-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    }
+</div>
+
+<table class="table table-striped">
+    @if (Model.Count() > 0) { 
+    <thead>
+        <tr>
+            <th class="col-lg-1">#</th>
+            <th class="col-lg-7">File Name</th>
+            <th class="col-lg-2">Created</th>
+            <th class="col-lg-1">Size</th>
+            <th class="col-lg-1 text-center">Operation</th>
+        </tr>
+    </thead>
+    }
+    <tbody id="tableBody">
+        
+        @foreach (var file_info in Model)
+        {
+            ind++; totalBytes = totalBytes + file_info.Length;
+            <tr>
+                <td>@ind</td>
+                <td>@file_info.Name</td>
+                <td>@file_info.CreationTime</td>
+                <td>@BytesToString(file_info.Length)</td>
+                <td class="text-center">
+                    @Html.ActionLink(" ", "Delete", "Files", new { file = file_info.Name }, new { @class = "btn btn-primary btn-xs glyphicon glyphicon-remove" })
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@if (totalBytes >= 1250)
+{
+    <div class="alert alert-warning" role="alert"> <b>Attention!</b> 10 kb text is scanned for about 5 minutes </div>
+}

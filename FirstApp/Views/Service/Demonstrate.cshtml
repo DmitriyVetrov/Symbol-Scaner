@@ -1,0 +1,72 @@
+﻿
+<script type="text/javascript">
+    function OnBegin() {
+        document.getElementById('btnAnalyse').classList.add("disabled");
+    }
+    function OnComplete() {
+        document.getElementById('btnAnalyse').classList.remove("disabled")
+    }
+</script>
+
+<h2>Demonstrate</h2>
+
+<div class="progress progress-striped">
+    <div class="progress-bar" style="width: 60%;">
+        <span class="sr-only">60% Complete</span>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#step1" data-toggle="tab">Step #1</a></li>
+    <li class=""><a href="#step2" data-toggle="tab">Step #2</a></li>
+    <li class=""><a href="#step3" data-toggle="tab">Step #3</a></li>
+    <li class="dropdown">
+        <a class=" dropdown-toggle" data-toggle="dropdown" href="#">
+        Action <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>@Ajax.ActionLink("Clear DataBase", "ClearData", new AjaxOptions() { UpdateTargetId = "page", LoadingElementId = "loading", LoadingElementDuration = 1000}) </li>
+        </ul>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane fade active in" id="step1">
+        <blockquote>
+            <p>Select and upload the documents to analyze the use of words. The table below shows the already uploaded files</p>
+            <small>For the analysis will be used only text-files with <cite title="Source Title">extension (*.txt)</cite></small>
+        </blockquote>
+        <p>@Html.Action("GetFiles", "Files")</p>
+    </div>
+
+
+    <div class="tab-pane fade" id="step2">
+        <blockquote>
+            <div class="well warning"> <b>Attention!</b> 100 kb text is scanned for about 5 minutes </div>
+            <p>Run a scan files for counting occurrences of each word</p>
+            <small>For the analysis will be used only text-files with <cite title="Source Title">extension (*.txt)</cite></small>
+        </blockquote>
+        
+        <div class="form-inline">
+            @Ajax.ActionLink("Analyse", "Analyse", null,
+                new AjaxOptions() { 
+                    UpdateTargetId = "page", 
+                    LoadingElementId = "loading", 
+                    LoadingElementDuration = 1000,
+                    OnBegin = "OnBegin",
+                    OnComplete = "OnComplete"
+                },
+                         new { @class = "btn btn-primary", id = "btnAnalyse" })
+        </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="step3">
+        <blockquote> <p>Results below</p> 
+            <small>For examle, word position <span class="label label-info">8, 43</span> -  43 position in 8 line </small>
+        </blockquote>
+        @Html.Action("GetPage")
+    </div>
+
+</div>
